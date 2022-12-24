@@ -12,29 +12,49 @@ body{
 #header{
     display: flex;
     flex-direction: column;
-    color:white ;
 }
 #poko-name{
+    padding-right: 10px;
+    padding-left: 10px;
+    background-color: white;
+    border-radius: 15px;
     align-self: center;
+
 }
 #search-pokemon{
-
-    align-self: end;
-    margin-right: 30px;
-
+    align-self: center;
 }
-#search-pokemon-input{
+#main{
+    display: flex ;
+    justify-content: center;
+}
+
+#ex-pokemon{
+    align-self: center;
+    width: 100px;
+    height: 30px;
     border: none;
     outline: none;
+    margin-top: 100px;
+    background-color: white;
+    border-radius: 20px;
+    cursor: pointer;
 }
-
-
-
-
+#next-pokemon{
+    align-self: center;
+    width: 100px;
+    height: 30px;
+    border: none;
+    outline: none;
+    margin-top: 100px;
+    background-color: white;
+    border-radius: 20px;
+    cursor: pointer;
+}
 #pokemon-box{
     margin-top: 100px;
     width: 30vw;
-    border: 1px solid white;
+
     display: flex;
     align-self: center;
 
