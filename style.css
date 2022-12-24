@@ -1,0 +1,45 @@
+body{
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+}
+#pokemon-img{
+    color: white;
+    height: 200px;
+    width: 200px;
+}
+
+#header{
+    display: flex;
+    flex-direction: column;
+    color:white ;
+}
+#poko-name{
+    align-self: center;
+}
+#search-pokemon{
+
+    align-self: end;
+    margin-right: 30px;
+
+}
+#search-pokemon-input{
+    border: none;
+    outline: none;
+}
+
+
+
+
+#pokemon-box{
+    margin-top: 100px;
+    width: 30vw;
+    border: 1px solid white;
+    display: flex;
+    align-self: center;
+
+}
+#pokemon-info{
+    color: white;
+    align-self:center ;
+}
