@@ -24,9 +24,10 @@ body{
 #search-pokemon{
     align-self: center;
 }
+
 #main{
     display: flex ;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 #ex-pokemon{
@@ -54,7 +55,7 @@ body{
 #pokemon-box{
     margin-top: 100px;
     width: 30vw;
-
+ 
     display: flex;
     align-self: center;
 
