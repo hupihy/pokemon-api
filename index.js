@@ -1,94 +1,48 @@
-function capitalizeFirstChar  (string){
-    return string.charAt(0).toUpperCase() + string.slice(1);
-
-}
-
-const loverCaseName = (string) =>{
-    return string.toLowerCase();
-}
-let pokemonNow = 0;
-
-
-
-const searchPokemon  = ()=>{
-    const Name = document.getElementById('search-pokemon-input').value;
-    const pokemonName = loverCaseName(Name);
-    const findindexpokemon = ()=>{
-        fetch('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0').then().then((response)=>response.json())
-            .then((indexPokemon)=> {
-                for(let index = 0 ; indexPokemon.results.length;index++){
-                    if(indexPokemon.results[index].name ===pokemonName){
-                        pokemonNow = index
-                    }
-
-                }
-
-
-            })
-
-    }
-    findindexpokemon()
-
-
-    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`).then((response)=>response.json())
-        .then((data)=>{
-
-          document.querySelector('#pokemon-box').innerHTML=`
+//отрисовка покемонов по поиску//
+const namePokemonInput = document.getElementById('search-pokemon-input');
+const searchButton = document.getElementById('search-button');
+const renderSearchPokemon = (pokemonName)=> {
+    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
+        .then((response) => response.json())
+        .then((data) => {
+            document.querySelector('#pokemon-box').innerHTML = `
           <div>
-             <img id="pokemon-img" src='${data.sprites.other['official-artwork'].front_default}' alt="${data.name}">
+             <img id="pokemon-img" src='${data.sprites.other['official-artwork'].front_default} 'alt="${data.name}">
           </div>
           <div id="pokemon-info">
-             <h2 id="pokemon-name">${capitalizeFirstChar(data.name)}</h2>
-             <p>Widht:${data.weight}</p>
-          `
-
-
+             <h2 id="pokemon-name">${(data.name)}</h2>
+             <p>Weidht:${data.weight}</p>`
         })
-
-}
-
-document.getElementById('search-button').addEventListener('click', searchPokemon);
-
-
-const renderPokemon  = (i) =>{
-
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0').then().then((response)=>response.json())
-        .then((pokemondata)=> {
-         const pokemon = pokemondata.results[i];
-
-         fetch(`https://pokeapi.co/api/v2/pokemon/${ pokemon.name}`).then().then((response)=>response.json())
-             .then((data)=> {
-                 document.querySelector('#pokemon-box').innerHTML=`
-          <div>
-             <img id="pokemon-img" src='${data.sprites.other['official-artwork'].front_default}' alt="${data.name}">
-          </div>
-          <div id="pokemon-info">
-             <h2 id="pokemon-name">${capitalizeFirstChar(data.name)}</h2>
-             <p>Widht:${data.weight}</p>
-          </div>
-          `
-             })
-
-
-
+        .catch((err)=>{
+            document.querySelector('#pokemon-box').innerHTML = `<div id="not-found"><h2>Pokemon not found</h2></div>`
         })
-
 }
-const renderNextPokemon = ()=>{
-    pokemonNow ++
-    renderPokemon(pokemonNow)
-}
-const renderPastPokemon = ()=>{
-    if(pokemonNow <= 0){
-        return
+searchButton.addEventListener('click',()=>{renderSearchPokemon(namePokemonInput.value.toLowerCase())})
+namePokemonInput.addEventListener('keyup', event=>{
+    if(event.code =='Enter'){
+        renderSearchPokemon(namePokemonInput.value.toLowerCase());
     }
-    pokemonNow --
-    renderPokemon(pokemonNow)
+})
+//поиск покемонов по кнопкам next  и past//
+let pokemonIndexNow= 0
+const nextPokemonButton = document.getElementById('next-pokemon');
+const pastPokemonButton = document.getElementById('ex-pokemon');
+nextPokemonButton.textContent ='next'
+pastPokemonButton.textContent ='past'
+const renderButtonPokemon = button=>{
+    if(button ==='next'){
+        pokemonIndexNow ++
+    }
+    else {
+        pokemonIndexNow --
+    }
+
 }
 
-const nextPokemon = document.getElementById('next-pokemon')
-const pastPokemon = document.getElementById('ex-pokemon')
-nextPokemon.addEventListener('click', renderNextPokemon)
-pastPokemon.addEventListener('click',renderPastPokemon)
-renderPokemon(pokemonNow)
+nextPokemonButton.addEventListener('click',()=>{renderButtonPokemon("next")})
+pastPokemonButton.addEventListener('click',()=>{renderButtonPokemon("past")})
+renderButtonPokemon()
+
+
+
 
