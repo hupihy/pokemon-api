@@ -24,25 +24,44 @@ namePokemonInput.addEventListener('keyup', event=>{
     }
 })
 //поиск покемонов по кнопкам next  и past//
-let pokemonIndexNow= 0
+const renderButtonPokemon = (value)=>{
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0')
+        .then((response)=>response.json())
+        .then((pokemonData)=> {
+            const pokemon = pokemonData.results[value];
+            fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`)
+                .then((response)=>response.json())
+                .then((data)=>{
+                    document.querySelector('#pokemon-box').innerHTML=`
+          <div>
+             <img id="pokemon-img" src='${data.sprites.other['official-artwork'].front_default}' alt="${data.name}">
+          </div>
+          <div id="pokemon-info">
+             <h2 id="pokemon-name">${(data.name)}</h2>
+             <p>Widht:${data.weight}</p>
+          </div>`
+                })
+        })
+}
+let pokemonNowIndex= 0
 const nextPokemonButton = document.getElementById('next-pokemon');
 const pastPokemonButton = document.getElementById('ex-pokemon');
 nextPokemonButton.textContent ='next'
 pastPokemonButton.textContent ='past'
-const renderButtonPokemon = button=>{
+const renderPokemonIndex = button=>{
     if(button ==='next'){
-        pokemonIndexNow ++
+        
+        pokemonNowIndex ++
+        renderButtonPokemon(pokemonNowIndex)
     }
     else {
-        pokemonIndexNow --
+        if(pokemonNowIndex === 0){
+            return
+        }
+        pokemonNowIndex --
+        renderButtonPokemon(pokemonNowIndex)
     }
-
 }
-
-nextPokemonButton.addEventListener('click',()=>{renderButtonPokemon("next")})
-pastPokemonButton.addEventListener('click',()=>{renderButtonPokemon("past")})
-renderButtonPokemon()
-
-
-
-
+nextPokemonButton.addEventListener('click',()=>{renderPokemonIndex("next")})
+pastPokemonButton.addEventListener('click',()=>{renderPokemonIndex("past")})
+renderButtonPokemon(pokemonNowIndex);
